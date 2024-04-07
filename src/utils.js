@@ -351,6 +351,14 @@ export function findBinary (bin) {
 }
 
 /**
+ * @param {string} projectDir
+ */
+export const listWorkspaces = async (projectDir) => {
+  const manifest = fs.readJSONSync(path.join(projectDir, 'package.json'))
+  return manifest.workspaces ?? undefined
+}
+
+/**
  * @typedef {object} Project
  * @property {any} manifest
  * @property {string} dir
@@ -359,21 +367,20 @@ export function findBinary (bin) {
  */
 
 /**
- * @param {string} projectDir
  * @param {(project: Project) => Promise<void>} fn
  * @param {object} [opts]
+ * @param {string[]?} [opts.workspaces]
  * @param {number} [opts.concurrency]
  */
-export async function everyMonorepoProject (projectDir, fn, opts) {
-  const manifest = fs.readJSONSync(path.join(projectDir, 'package.json'))
-  const workspaces = manifest.workspaces
-
-  if (!workspaces || !Array.isArray(workspaces)) {
+export async function everyMonorepoProject (fn, opts) {
+  const workspaces = (opts?.workspaces ?? await listWorkspaces(process.cwd())).filter((/** @type {string | null} */ workspace) => workspace != null)
+  if (!workspaces || !Array.isArray(workspaces) || workspaces.length === 0) {
     throw new Error('No monorepo workspaces found')
   }
 
   /** @type {Record<string, Project>} */
-  const projects = parseProjects(projectDir, workspaces)
+
+  const projects = await parseProjects(workspaces)
 
   checkForCircularDependencies(projects)
 
@@ -416,27 +423,23 @@ export async function everyMonorepoProject (projectDir, fn, opts) {
 }
 
 /**
- *
- * @param {string} projectDir
  * @param {string[]} workspaces
+ * @param {string | undefined} cwd
  */
-export const getSubprojectDirectories = (projectDir, workspaces) => {
-  return fg.globSync(workspaces, {
-    cwd: projectDir,
-    onlyFiles: false
-  })
-}
+export const getSubprojectDirectories = async (workspaces, cwd = process.cwd()) => fg.glob(workspaces, {
+  cwd,
+  onlyFiles: false
+})
 
 /**
  *
- * @param {string} projectDir
  * @param {string[]} workspaces
  */
-export function parseProjects (projectDir, workspaces) {
+export async function parseProjects (workspaces) {
   /** @type {Record<string, Project>} */
   const projects = {}
 
-  for (const subProjectDir of getSubprojectDirectories(projectDir, workspaces)) {
+  for (const subProjectDir of await getSubprojectDirectories(workspaces)) {
     const stat = fs.statSync(subProjectDir)
 
     if (!stat.isDirectory()) {
