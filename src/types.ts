@@ -410,7 +410,8 @@ interface RunOptions {
   /**
    * Run scripts in parallel up to this limit
    */
-  concurrency?: number
+  concurrency?: number | { threads: number, ordered: boolean }
+  
 
   /**
    * Workspaces to run the command in

@@ -352,7 +352,9 @@ export const listWorkspaces = async (projectDir) => {
  * @param {(project: Project) => Promise<void>} fn
  * @param {object} [opts]
  * @param {string[]?} [opts.workspaces]
- * @param {number} [opts.concurrency]
+ * @param {object} [opts.concurrency]
+ * @param {number} [opts.concurrency.threads]
+ * @param {boolean} [opts.concurrency.ordered]
  */
 export async function everyMonorepoProject (fn, opts) {
   const workspaces = (opts?.workspaces ?? await listWorkspaces(process.cwd())).filter((/** @type {string | null} */ workspace) => workspace != null)
@@ -366,42 +368,53 @@ export async function everyMonorepoProject (fn, opts) {
 
   checkForCircularDependencies(projects)
 
-  /**
-   * @type {Map<string, number>} Track the number of outstanding dependencies of each project
-   *
-   * This is mutated (decremented and deleted) as tasks are run for dependencies
-   */
-  const inDegree = new Map()
-  for (const [name, project] of Object.entries(projects)) {
-    inDegree.set(name, project.siblingDependencies.length)
-  }
+
 
   const queue = new PQueue({
-    concurrency: opts?.concurrency ?? os.availableParallelism?.() ?? os.cpus().length
+    concurrency: opts?.concurrency?.threads ?? os.availableParallelism?.() ?? os.cpus().length
   })
 
-  while (inDegree.size) {
-    /** @type {string[]} */
-    const toRun = []
+  if(opts?.concurrency == null || opts.concurrency.ordered === true) {
+    /**
+     * @type {Map<string, number>} Track the number of outstanding dependencies of each project
+     *
+     * This is mutated (decremented and deleted) as tasks are run for dependencies
+     */
+    const inDegree = new Map()
+    for (const [name, project] of Object.entries(projects)) {
+      inDegree.set(name, project.siblingDependencies.length)
+    }
 
-    for (const [name, d] of inDegree) {
-      // when there are no more dependencies
-      // the project can be added to the queue
-      // and removed from the tracker
-      if (d === 0) {
-        toRun.push(name)
-        inDegree.delete(name)
+    while (inDegree.size) {
+      /** @type {string[]} */
+      const toRun = []
+
+      for (const [name, d] of inDegree) {
+        // when there are no more dependencies
+        // the project can be added to the queue
+        // and removed from the tracker
+        if (d === 0) {
+          toRun.push(name)
+          inDegree.delete(name)
+        }
+      }
+
+      await Promise.all(toRun.map((name) => queue.add(() => fn(projects[name]))))
+
+      // decrement projects whose dependencies were just run
+      for (const [name, d] of inDegree) {
+        const decrement = projects[name].siblingDependencies.filter(dep => toRun.includes(dep)).length
+        inDegree.set(name, d - decrement)
       }
     }
-
-    await Promise.all(toRun.map((name) => queue.add(() => fn(projects[name]))))
-
-    // decrement projects whose dependencies were just run
-    for (const [name, d] of inDegree) {
-      const decrement = projects[name].siblingDependencies.filter(dep => toRun.includes(dep)).length
-      inDegree.set(name, d - decrement)
-    }
   }
+  else {
+    await Promise.all(Object.values(projects).map(project => queue.add(() => fn(project)))
+    )
+  
+
+  }
+  
 }
 
 /**
