@@ -36,7 +36,7 @@ const tasks = new Listr([
       const {
         siblingVersions,
         packageDirs
-      } = await calculateSiblingVersions(rootDir, workspaces)
+      } = await calculateSiblingVersions(workspaces, rootDir)
 
       // check these dependency types for monorepo siblings
       const dependencyTypes = [
@@ -108,16 +108,16 @@ const tasks = new Listr([
 ], { renderer: 'verbose' })
 
 /**
- * @param {string} rootDir
  * @param {string[]} workspaces
+ * @param {string} rootDir
  */
-async function calculateSiblingVersions (rootDir, workspaces) {
+async function calculateSiblingVersions (workspaces, rootDir) {
   const packageDirs = []
 
   /** @type {Record<string, string>} */
   const siblingVersions = {}
 
-  for (const subProjectDir of await getSubprojectDirectories(rootDir, workspaces)) {
+  for (const subProjectDir of await getSubprojectDirectories(workspaces, rootDir)) {
     const pkg = JSON.parse(fs.readFileSync(path.join(subProjectDir, 'package.json'), {
       encoding: 'utf-8'
     }))
