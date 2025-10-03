@@ -7,6 +7,8 @@ import Listr from 'listr'
 import retry from 'p-retry'
 import { isMonorepoParent, pkg, everyMonorepoProject, pipeOutput } from './utils.js'
 
+const packageManager = process.env.AEGIR_PACKAGE_MANAGER ?? process.env.NPM ?? 'npm'
+
 /**
  * @typedef {import('./types.js').GlobalOptions} GlobalOptions
  * @typedef {import('./types.js').ReleaseRcOptions} ReleaseRcOptions
@@ -77,10 +79,10 @@ async function releaseMonorepoRcs (commit, ctx) {
     })
 
     await retry(async () => {
-      console.info(`npm publish --tag ${ctx.tag} --dry-run ${!process.env.CI}`)
+      console.info(`${packageManager} publish --tag ${ctx.tag} --dry-run ${!process.env.CI}`)
 
       try {
-        const subprocess = execa('npm', ['publish', '--tag', ctx.tag, '--dry-run', `${!process.env.CI}`], {
+        const subprocess = execa(packageManager, ['publish', '--tag', ctx.tag, '--dry-run', `${!process.env.CI}`], {
           cwd: project.dir
         })
         pipeOutput(subprocess, project.manifest.name, ctx.prefix)
@@ -114,17 +116,17 @@ async function releaseRc (commit, ctx) {
     return
   }
 
-  console.info(`npm version ${pkg.version}-${commit} --no-git-tag-version`)
-  await execa('npm', ['version', `${pkg.version}-${commit}`, '--no-git-tag-version'], {
+  console.info(`${packageManager} version ${pkg.version}-${commit} --no-git-tag-version`)
+  await execa(packageManager, ['version', `${pkg.version}-${commit}`, '--no-git-tag-version'], {
     stdout: 'inherit',
     stderr: 'inherit'
   })
 
   await retry(async () => {
-    console.info(`npm publish --tag ${ctx.tag} --dry-run ${!process.env.CI}`)
+    console.info(`${packageManager} publish --tag ${ctx.tag} --dry-run ${!process.env.CI}`)
 
     try {
-      await execa('npm', ['publish', '--tag', ctx.tag, '--dry-run', `${!process.env.CI}`], {
+      await execa(packageManager, ['publish', '--tag', ctx.tag, '--dry-run', `${!process.env.CI}`], {
         stdout: 'inherit',
         stderr: 'inherit',
         all: true
