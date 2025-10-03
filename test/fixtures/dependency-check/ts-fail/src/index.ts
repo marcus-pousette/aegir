@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// @ts-expect-error unused
+// @ts-nocheck
+/* eslint-disable */
 import { execa } from 'execa'
 import './other.js'

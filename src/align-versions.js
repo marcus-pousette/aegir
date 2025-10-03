@@ -5,7 +5,7 @@ import { execa } from 'execa'
 import fs from 'fs-extra'
 import Listr from 'listr'
 import { calculateSiblingVersion } from './check-project/utils.js'
-import { isMonorepoRoot, getSubprojectDirectories, pkg } from './utils.js'
+import { isMonorepoRoot, getSubProjectDirectories, pkg } from './utils.js'
 
 /**
  * @typedef {import("./types.js").GlobalOptions} GlobalOptions
@@ -21,22 +21,22 @@ const tasks = new Listr([
      * @param {GlobalOptions & ReleaseOptions} ctx
      */
     task: async (ctx) => {
-      if (!process.env.CI) {
-        console.info('⚠ This run was not triggered in a known CI environment, running in dry-run mode.') // eslint-disable-line no-console
+      if (process.env.CI == null) {
+        console.info('⚠ This run was not triggered in a known CI environment, running in dry-run mode.')
         return
       }
 
       const rootDir = process.cwd()
-      const workspaces = pkg.workspaces
+      const { workspaces } = pkg
 
-      if (!workspaces || !Array.isArray(workspaces)) {
+      if (workspaces == null || !Array.isArray(workspaces)) {
         throw new Error('No monorepo workspaces found')
       }
 
       const {
         siblingVersions,
         packageDirs
-      } = await calculateSiblingVersions(workspaces, rootDir)
+      } = await calculateSiblingVersions(rootDir, workspaces)
 
       // check these dependency types for monorepo siblings
       const dependencyTypes = [
@@ -56,7 +56,7 @@ const tasks = new Listr([
         for (const type of dependencyTypes) {
           for (const [dep, version] of Object.entries(siblingVersions)) {
             if (manifest[type] != null && manifest[type][dep] != null && manifest[type][dep] !== version) {
-              console.info('Update', type, dep, manifest[type][dep], '->', version) // eslint-disable-line no-console
+              console.info('Update', type, dep, manifest[type][dep], '->', version)
               manifest[type][dep] = version
             }
           }
@@ -82,7 +82,7 @@ const tasks = new Listr([
         return
       }
 
-      // When running on CI, set the commits author and commiter info and prevent the `git` CLI to prompt for username/password.
+      // When running on CI, set the commits author and committer info and prevent the `git` CLI to prompt for username/password.
       // Borrowed from `semantic-release`
       process.env.GIT_AUTHOR_NAME = ctx.siblingDepUpdateName
       process.env.GIT_AUTHOR_EMAIL = ctx.siblingDepUpdateEmail
@@ -91,7 +91,7 @@ const tasks = new Listr([
       process.env.GIT_ASKPASS = 'echo'
       process.env.GIT_TERMINAL_PROMPT = '0'
 
-      console.info(`Commit with message "${ctx.siblingDepUpdateMessage}"`) // eslint-disable-line no-console
+      console.info(`Commit with message "${ctx.siblingDepUpdateMessage}"`)
 
       await execa('git', ['add', '-A'], {
         cwd: rootDir
@@ -99,7 +99,7 @@ const tasks = new Listr([
       await execa('git', ['commit', '-m', ctx.siblingDepUpdateMessage], {
         cwd: rootDir
       })
-      console.info('Push to remote') // eslint-disable-line no-console
+      console.info('Push to remote')
       await execa('git', ['push'], {
         cwd: rootDir
       })
@@ -108,16 +108,17 @@ const tasks = new Listr([
 ], { renderer: 'verbose' })
 
 /**
- * @param {string[]} workspaces
  * @param {string} rootDir
+ * @param {string[]} workspaces
+ * @returns {Promise<{ packageDirs: string[], siblingVersions: Record<string, string> }>}
  */
-async function calculateSiblingVersions (workspaces, rootDir) {
+async function calculateSiblingVersions (rootDir, workspaces) {
   const packageDirs = []
 
   /** @type {Record<string, string>} */
   const siblingVersions = {}
 
-  for (const subProjectDir of await getSubprojectDirectories(workspaces, rootDir)) {
+  for (const subProjectDir of await getSubProjectDirectories(rootDir, workspaces)) {
     const pkg = JSON.parse(fs.readFileSync(path.join(subProjectDir, 'package.json'), {
       encoding: 'utf-8'
     }))

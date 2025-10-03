@@ -2,9 +2,11 @@
     "extends": "./src/config/tsconfig.aegir.json",
     "compilerOptions": {
         "outDir": "dist",
-        "emitDeclarationOnly": true
+        "emitDeclarationOnly": true,
+        "jsx": "preserve"
     },
     "include": [
+      "eslint.config.js",
       "package.json",
       "src",
       "test",

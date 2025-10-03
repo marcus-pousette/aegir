@@ -2,16 +2,16 @@ import os from 'os'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { execa } from 'execa'
-import kleur from 'kleur'
 import * as tempy from 'tempy'
 import merge from '../utils/merge-options.js'
+import { killIfCoverageHangs } from './utils.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 /**
  * @typedef {import("execa").Options} ExecaOptions
- * @typedef {import('./../types').TestOptions} TestOptions
- * @typedef {import('./../types').GlobalOptions} GlobalOptions
+ * @typedef {import('../types.js').TestOptions} TestOptions
+ * @typedef {import('../types.js').GlobalOptions} GlobalOptions
  */
 
 /**
@@ -34,10 +34,10 @@ export default async function testNode (argv, execaOptions) {
   const files = argv.files.length > 0
     ? argv.files
     : [
-        'test/node.{js,cjs,mjs}',
-        'test/**/*.spec.{js,cjs,mjs}',
-        'dist/test/node.{js,cjs,mjs}',
-        'dist/test/**/*.spec.{js,cjs,mjs}'
+        'test/node.*js',
+        'test/**/*.spec.*js',
+        'dist/test/node.*js',
+        'dist/test/**/*.spec.*js'
       ]
 
   const args = [
@@ -84,60 +84,14 @@ export default async function testNode (argv, execaOptions) {
         },
         preferLocal: true,
         localDir: path.join(__dirname, '../..'),
-        stdio: argv.cov ? 'pipe' : 'inherit'
+        stdio: argv.cov ? 'pipe' : 'inherit',
+        forceKillAfterDelay: 1_000
       },
       execaOptions
     )
   )
 
-  let killedWhileCollectingCoverage = false
-
-  /** @type {ReturnType<setTimeout> | undefined} */
-  let timeout
-
-  if (argv.cov) {
-    proc.stderr?.addListener('data', (data) => {
-      process.stderr.write(data)
-    })
-
-    let lastLine = ''
-    proc.stdout?.addListener('data', (data) => {
-      process.stdout.write(data)
-
-      lastLine = data.toString()
-
-      if (lastLine.trim() !== '') {
-        // more output has been sent, reset timer
-        clearTimeout(timeout)
-      }
-
-      if (lastLine.match(/^ {2}\d+ (passing|pending)/m) != null) {
-        // if we see something that looks like the successful end of a mocha
-        // run, set a timer - if the process does not exit before the timer
-        // fires, kill it and log a warning, though don't cause the test run
-        // to fail
-        timeout = setTimeout(() => {
-          console.warn(kleur.red('!!! Collecting coverage has hung, killing process')) // eslint-disable-line no-console
-          console.warn(kleur.red('!!! See https://github.com/ipfs/aegir/issues/1206 for more information')) // eslint-disable-line no-console
-          killedWhileCollectingCoverage = true
-
-          proc.kill('SIGTERM', {
-            forceKillAfterTimeout: 1000
-          })
-        }, argv.covTimeout).unref()
-      }
-    })
-  }
-
-  try {
-    await proc
-  } catch (err) {
-    if (!killedWhileCollectingCoverage) {
-      throw err
-    }
-  } finally {
-    clearTimeout(timeout)
-  }
+  await killIfCoverageHangs(proc, argv)
 
   // after hook
   await argv.fileConfig.test.after(argv, before)

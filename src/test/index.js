@@ -1,5 +1,5 @@
 import { execa } from 'execa'
-import pmap from 'p-map'
+import pMap from 'p-map'
 import browser from './browser.js'
 import electron from './electron.js'
 import node from './node.js'
@@ -7,9 +7,9 @@ import rn from './react-native.js'
 
 /**
  * @typedef {import("execa").Options} ExecaOptions
- * @typedef {import('./../types').TestOptions} TestOptions
- * @typedef {import('./../types').GlobalOptions} GlobalOptions
- * @typedef {import('./../types').BuildOptions} BuildOptions
+ * @typedef {import('../types.js').TestOptions} TestOptions
+ * @typedef {import('../types.js').GlobalOptions} GlobalOptions
+ * @typedef {import('../types.js').BuildOptions} BuildOptions
  */
 
 const TASKS = [
@@ -111,7 +111,7 @@ export default {
    * @param {ExecaOptions} execaOptions
    */
   run (opts, execaOptions = {}) {
-    return pmap(TASKS, (task) => {
+    return pMap(TASKS, (task) => {
       if (!task.enabled(opts)) {
         return Promise.resolve()
       }

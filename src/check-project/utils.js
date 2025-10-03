@@ -123,14 +123,15 @@ export async function ensureFileHasContents (projectDir, filePath, expectedConte
  * @param {string} filePath
  */
 export async function ensureFileNotPresent (projectDir, filePath) {
-  const fileExists = fs.existsSync(path.join(projectDir, filePath))
+  const fullPath = path.join(projectDir, filePath)
+  const fileExists = fs.existsSync(fullPath)
 
   if (fileExists) {
     if (process.env.CI) {
       throw new Error(`${filePath} exists`)
     }
 
-    console.warn(kleur.yellow(`${filePath} exist`))
+    console.warn(kleur.yellow(`${filePath} exists`))
 
     const { removeFile } = await prompt.get({
       properties: {
@@ -146,7 +147,7 @@ export async function ensureFileNotPresent (projectDir, filePath) {
       throw new Error(`Not removing ${filePath} file`)
     }
 
-    fs.rmSync(filePath)
+    fs.rmSync(fullPath)
   }
 }
 
@@ -270,6 +271,15 @@ export function constructManifest (manifest, manifestFields, repoUrl, homePage =
     output.types = undefined
     output.typesVersions = undefined
     output.exports = undefined
+    output.release = undefined
+
+    // remove release fields from non-monorepo root manifests
+    if (output.workspaces == null) {
+      output.homepage = undefined
+      output.repository = undefined
+      output.bugs = undefined
+      output.scripts.release = undefined
+    }
   }
 
   return output

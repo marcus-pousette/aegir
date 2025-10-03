@@ -1,0 +1,59 @@
+{
+  // Enable your dictionary by adding it to the list of `dictionaries`
+  "dictionaries": ["ipfs"],
+
+  // Tell CSpell about your dictionary
+  "dictionaryDefinitions": [{
+    // The name of the dictionary is used to look it up.
+    "name": "ipfs",
+    // Path to the custom word file. Relative to this `cspell.json` file.
+    "path": "./dictionaries/ipfs.txt"
+  }],
+
+  "files": [
+    "**/*.{ts,js,md}",
+    "!**/dist/**",
+    "!**/node_modules/**",
+    "!**/CHANGELOG.md"
+  ],
+
+  "ignoreRegExpList": [
+    // ignore import names (e.g. `import foo from 'module-name-with-typo'`)
+    "/from\\s+(['\"]).*\\1/",
+
+    // ignore dynamic imports
+    "/import(.*)/",
+
+    // ignore anything in backticks
+    "/`.*`/",
+
+    // multiaddrs are not spell checked
+    "/multiaddr(.*)/",
+
+    // string encoded binary is not spell checked
+    "/uint8ArrayFromString(.*)/",
+
+    // CIDs are not spell checked
+    "/CID(.*)/",
+
+    // string CIDs are not spell checked
+    "baf[a-zA-Z1-9\/]+", // base32 encoded libp2p-key
+    "bae[a-zA-Z1-9\/]+", // base32 encoded identity
+    "Qm[a-zA-Z1-9\/]+", // base58btc encoded (no multibase)
+
+    // string PeerIds are not spell checked
+    "12D3Koo[a-zA-Z1-9\/]+", // Ed25519
+    "16Uiu[a-zA-Z1-9\/]+", // secp256k1
+    "k51[a-zA-Z1-9\/]+", // base36 ed PeerId as CID
+    "kzw[a-zA-Z1-9\/]+", // base36 secp PeerId as CID
+    "k2k[a-zA-Z1-9\/]+", // base36 rsa PeerId as CID
+
+    "/ipfs/[a-zA-Z1-9\/]+", // IPFS paths
+    "ipfs://[a-zA-Z1-9\/]+", // IPFS URLs
+    "/ipns/[a-zA-Z1-9\/\\.]+", // IPNS names
+    "ipns://[a-zA-Z1-9\/\\.]+", // IPNS URLs
+
+    "AAE[a-zA-Z1-9\/]+", // base64 data
+    "%[a-fA-F0-9]{2}" // URL encoded characters
+  ]
+}

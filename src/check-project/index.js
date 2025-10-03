@@ -10,7 +10,7 @@ import prompt from 'prompt'
 import semver from 'semver'
 import yargsParser from 'yargs-parser'
 import {
-  getSubprojectDirectories,
+  getSubProjectDirectories,
   isMonorepoProject,
   usesReleasePlease
 } from '../utils.js'
@@ -59,7 +59,7 @@ async function getConfig (projectDir) {
     .then(res => execa('basename', [res.stdout]))
     .then(res => res.stdout)
     .catch(() => {
-      return 'master'
+      return 'main'
     })
   const repoUrl = await execa('git', ['remote', 'get-url', 'origin'], {
     cwd: projectDir
@@ -132,20 +132,20 @@ async function processMonorepo (projectDir, manifest, branchName, repoUrl, ciFil
     throw new Error('Invalid release type specified')
   }
 
-  for (const subProjectDir of await getSubprojectDirectories(workspaces, projectDir)) {
+  for (const subProjectDir of await getSubProjectDirectories(projectDir, workspaces)) {
     const stat = await fs.stat(subProjectDir)
 
     if (!stat.isDirectory()) {
       continue
     }
 
-    const manfest = path.join(subProjectDir, 'package.json')
+    const subProjectManifest = path.join(subProjectDir, 'package.json')
 
-    if (!fs.existsSync(manfest)) {
+    if (!fs.existsSync(subProjectManifest)) {
       continue
     }
 
-    const pkg = fs.readJSONSync(manfest)
+    const pkg = fs.readJSONSync(subProjectManifest)
     const homePage = `${webRoot}/${subProjectDir.includes(projectDir) ? subProjectDir.substring(projectDir.length) : subProjectDir}`
 
     console.info('Found monorepo project', pkg.name)

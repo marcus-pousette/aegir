@@ -7,8 +7,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 /**
  * @typedef {import("execa").Options} ExecaOptions
- * @typedef {import('../types').TestOptions} TestOptions
- * @typedef {import('../types').GlobalOptions} GlobalOptions
+ * @typedef {import('../types.js').TestOptions} TestOptions
+ * @typedef {import('../types.js').GlobalOptions} GlobalOptions
  */
 
 /**
@@ -29,8 +29,10 @@ export default async (argv, execaOptions) => {
   const files = argv.files.length > 0
     ? argv.files
     : [
-        'test/**/*.spec.{js,ts,cjs,mjs}',
-        'test/browser.{js,ts,cjs,mjs}'
+        'test/**/*.spec.*js',
+        'test/**/*.spec.ts',
+        'test/browser.*js',
+        'test/browser.ts'
       ]
 
   // before hook

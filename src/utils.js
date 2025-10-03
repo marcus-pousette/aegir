@@ -28,14 +28,18 @@ import logTransformer from 'strong-log-transformer'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const EnvPaths = envPaths('aegir', { suffix: '' })
 
-const {
-  // @ts-ignore
-  packageJson: pkg,
-  // @ts-ignore
-  path: pkgPath
-} = readPackageUpSync({
+const manifest = readPackageUpSync({
   cwd: fs.realpathSync(process.cwd())
 })
+
+if (manifest == null) {
+  throw new Error('Could not read package.json')
+}
+
+const {
+  packageJson: pkg,
+  path: pkgPath
+} = manifest
 const DIST_FOLDER = 'dist'
 const SRC_FOLDER = 'src'
 const TEST_FOLDER = 'test'
@@ -380,7 +384,7 @@ export async function everyMonorepoProject (fn, opts) {
 
   /** @type {Record<string, Project>} */
 
-  const projects = await parseProjects(workspaces)
+  const projects = await parseProjects(workspaces, process.cwd())
 
   checkForCircularDependencies(projects)
 
@@ -423,37 +427,51 @@ export async function everyMonorepoProject (fn, opts) {
 }
 
 /**
+ * @param {string} projectDir
  * @param {string[]} workspaces
- * @param {string | undefined} cwd
+ * @returns {string[]}
  */
-export const getSubprojectDirectories = async (workspaces, cwd = process.cwd()) => fg.glob(workspaces, {
-  cwd,
-  onlyFiles: false,
-  followSymbolicLinks: false
-})
+export const getSubProjectDirectories = (projectDir, workspaces) => {
+  return fg.globSync(workspaces, {
+    cwd: projectDir,
+    onlyFiles: false,
+    followSymbolicLinks: false
+  })
+}
+
+/**
+ * @param {string[]} workspaces
+ * @param {string} [cwd]
+ * @returns {string[]}
+ */
+export const getSubprojectDirectories = (workspaces, cwd = process.cwd()) => {
+  return getSubProjectDirectories(cwd, workspaces)
+}
 
 /**
  *
  * @param {string[]} workspaces
+ * @param {string} [projectDir]
+ * @returns {Record<string, Project>}
  */
-export async function parseProjects (workspaces) {
+export function parseProjects (workspaces, projectDir = process.cwd()) {
   /** @type {Record<string, Project>} */
   const projects = {}
 
-  for (const subProjectDir of await getSubprojectDirectories(workspaces)) {
+  for (const subProjectDir of getSubProjectDirectories(projectDir, workspaces)) {
     const stat = fs.statSync(subProjectDir)
 
     if (!stat.isDirectory()) {
       continue
     }
 
-    const manfest = path.join(subProjectDir, 'package.json')
+    const manifest = path.join(subProjectDir, 'package.json')
 
-    if (!fs.existsSync(manfest)) {
+    if (!fs.existsSync(manifest)) {
       continue
     }
 
-    const pkg = fs.readJSONSync(manfest)
+    const pkg = fs.readJSONSync(manifest)
 
     projects[pkg.name] = {
       manifest: pkg,
@@ -561,7 +579,7 @@ export const formatCode = (code, errorLines) => {
 /**
  * Pipe subprocess output to stdio
  *
- * @param {import('execa').ExecaChildProcess} subprocess
+ * @param {import('execa').Subprocess} subprocess
  * @param {string} prefix
  * @param {boolean} [shouldPrefix]
  */

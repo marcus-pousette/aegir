@@ -18,21 +18,22 @@ import lintCmd from './cmds/lint.js'
 import releaseRcCmd from './cmds/release-rc.js'
 import releaseCmd from './cmds/release.js'
 import runCmd from './cmds/run.js'
+import spellCheckCmd from './cmds/spell-check.js'
 import testDependantCmd from './cmds/test-dependant.js'
 import testCmd from './cmds/test.js'
 import { loadUserConfig } from './config/user.js'
 
 /**
- * @typedef {import('./types').BuildOptions} BuildOptions
- * @typedef {import('./types').DependencyCheckOptions} DependencyCheckOptions
- * @typedef {import('./types').DocsOptions} DocsOptions
- * @typedef {import('./types').GlobalOptions} GlobalOptions
- * @typedef {import('./types').LintOptions} LintOptions
- * @typedef {import('./types').Options} Options
- * @typedef {import('./types').PartialOptions} PartialOptions
- * @typedef {import('./types').ReleaseOptions} ReleaseOptions
- * @typedef {import('./types').TSOptions} TSOptions
- * @typedef {import('./types').TestOptions} TestOptions
+ * @typedef {import('./types.js').BuildOptions} BuildOptions
+ * @typedef {import('./types.js').DependencyCheckOptions} DependencyCheckOptions
+ * @typedef {import('./types.js').DocsOptions} DocsOptions
+ * @typedef {import('./types.js').GlobalOptions} GlobalOptions
+ * @typedef {import('./types.js').LintOptions} LintOptions
+ * @typedef {import('./types.js').Options} Options
+ * @typedef {import('./types.js').PartialOptions} PartialOptions
+ * @typedef {import('./types.js').ReleaseOptions} ReleaseOptions
+ * @typedef {import('./types.js').TSOptions} TSOptions
+ * @typedef {import('./types.js').TestOptions} TestOptions
  */
 
 process.on('unhandledRejection', (err) => {
@@ -94,6 +95,7 @@ async function main () {
   res.command(execCmd)
   res.command(runCmd)
   res.command(alignVersionsCmd)
+  res.command(spellCheckCmd)
 
   try {
     await res.parse()

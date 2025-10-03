@@ -8,10 +8,18 @@ import { compileSnippets } from 'typescript-docs-verifier'
 import merge from './utils/merge-options.js'
 import { formatCode, formatError, fromRoot, hasTsconfig, readJson } from './utils.js'
 /**
- * @typedef {import("./types").GlobalOptions} GlobalOptions
- * @typedef {import("./types").DocsVerifierOptions} DocsVerifierOptions
+ * @typedef {import('./types.js').GlobalOptions} GlobalOptions
+ * @typedef {import('./types.js').DocsVerifierOptions} DocsVerifierOptions
  * @typedef {import("listr").ListrTaskWrapper} Task
+ * @typedef {import("ts-node").TSError} TSError
  */
+
+/**
+ * A list of tsc errors to ignore when compiling code snippets in documentation.
+ */
+const TS_ERRORS_TO_SUPPRESS = [
+  2307 // Cannot find module '...' or its corresponding type declarations
+]
 
 const tasks = new Listr(
   [
@@ -51,10 +59,9 @@ const tasks = new Listr(
                 userTSConfig,
                 {
                   compilerOptions: {
-                    target: 'esnext',
-                    module: 'esnext',
                     noImplicitAny: true,
-                    noEmit: true
+                    noEmit: true,
+                    skipLibCheck: true
                   }
                 }
               ])
@@ -64,6 +71,15 @@ const tasks = new Listr(
 
             results.forEach((result) => {
               if (result.error) {
+                // ignore some diagnostic codes
+                if (isTSError(result.error)) {
+                  const diagnosticCodes = result.error?.diagnosticCodes?.filter(code => !TS_ERRORS_TO_SUPPRESS.includes(code))
+
+                  if (diagnosticCodes.length === 0) {
+                    return
+                  }
+                }
+
                 process.exitCode = 1
                 console.log(kleur.red().bold(`Error compiling example code block ${result.index} in file ${result.file}:`))
                 console.log(formatError(result.error))
@@ -89,3 +105,12 @@ const tasks = new Listr(
 )
 
 export default tasks
+
+/**
+ *
+ * @param {*} err
+ * @returns {err is TSError}
+ */
+function isTSError (err) {
+  return Array.isArray(err.diagnosticCodes)
+}

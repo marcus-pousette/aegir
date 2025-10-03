@@ -18,10 +18,19 @@ const ignoredDevDependencies = [
   '@semantic-release/*'
 ]
 
+const parsers = {
+  '**/*.js': depcheck.parser.es6,
+  '**/*.jsx': depcheck.parser.jsx,
+  '**/*.ts': depcheck.parser.typescript,
+  '**/*.tsx': depcheck.parser.typescript,
+  '**/*.cjs': depcheck.parser.es6,
+  '**/*.mjs': depcheck.parser.es6
+}
+
 /**
  * @typedef {import("listr").ListrTaskWrapper} Task
- * @typedef {import("./types").GlobalOptions} GlobalOptions
- * @typedef {import("./types").DependencyCheckOptions} DependencyCheckOptions
+ * @typedef {import('./types.js').GlobalOptions} GlobalOptions
+ * @typedef {import('./types.js').DependencyCheckOptions} DependencyCheckOptions
  */
 
 const tasks = new Listr(
@@ -39,13 +48,10 @@ const tasks = new Listr(
         const manifest = JSON.parse(fs.readFileSync(path.join(cwd(), 'package.json'), 'utf-8'))
 
         const productionOnlyResult = await depcheck(cwd(), {
-          parsers: {
-            '**/*.js': depcheck.parser.es6,
-            '**/*.ts': depcheck.parser.typescript,
-            '**/*.cjs': depcheck.parser.es6,
-            '**/*.mjs': depcheck.parser.es6
-          },
-          ignoreMatches: ignoredDevDependencies.concat(ctx.fileConfig.dependencyCheck.ignore).concat(ctx.ignore),
+          parsers,
+          ignoreMatches: ignoredDevDependencies
+            .concat(ctx.fileConfig.dependencyCheck.ignore)
+            .concat(ctx.ignore),
           ignorePatterns: ctx.productionIgnorePatterns,
           package: {
             ...manifest,
@@ -81,24 +87,21 @@ const tasks = new Listr(
         }
 
         // check dev dependencies
-        const devlopmentOnlyResult = await depcheck(cwd(), {
-          parsers: {
-            '**/*.js': depcheck.parser.es6,
-            '**/*.ts': depcheck.parser.typescript,
-            '**/*.cjs': depcheck.parser.es6,
-            '**/*.mjs': depcheck.parser.es6
-          },
-          ignoreMatches: ignoredDevDependencies.concat(ctx.fileConfig.dependencyCheck.ignore).concat(ctx.ignore),
+        const developmentOnlyResult = await depcheck(cwd(), {
+          parsers,
+          ignoreMatches: ignoredDevDependencies
+            .concat(ctx.fileConfig.dependencyCheck.ignore)
+            .concat(ctx.ignore),
           ignorePatterns: ctx.developmentIgnorePatterns
         })
 
-        if (Object.keys(devlopmentOnlyResult.missing).length > 0) {
+        if (Object.keys(developmentOnlyResult.missing).length > 0) {
           missingOrUnusedPresent = true
           console.error('')
           console.error('Missing development dependencies:')
           console.error('')
 
-          Object.entries(devlopmentOnlyResult.missing).forEach(([dep, path]) => {
+          Object.entries(developmentOnlyResult.missing).forEach(([dep, path]) => {
             console.error(kleur.red(dep))
             console.error(' ', kleur.gray(path.join('\n  ')))
           })
@@ -106,13 +109,13 @@ const tasks = new Listr(
           console.error('')
         }
 
-        if (devlopmentOnlyResult.devDependencies.length > 0) {
+        if (developmentOnlyResult.devDependencies.length > 0) {
           missingOrUnusedPresent = true
           console.error('')
           console.error('Unused development dependencies:')
           console.error('')
 
-          devlopmentOnlyResult.devDependencies.forEach(dep => {
+          developmentOnlyResult.devDependencies.forEach(dep => {
             console.error(kleur.yellow(dep))
           })
           console.error('')

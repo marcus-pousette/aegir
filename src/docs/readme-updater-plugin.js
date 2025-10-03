@@ -15,13 +15,17 @@ export function load (app) {
   let projects = {}
 
   if (isMonorepoParent) {
-    projects = parseProjects(pkg.workspaces)
+    const workspaces = Array.isArray(pkg.workspaces) ? pkg.workspaces : pkg.workspaces?.packages ?? []
+    projects = parseProjects(workspaces)
   }
 
   // when rendering has finished, work out which UrlMappings refer to the index
   // pages of the current module or monorepo packages
   app.renderer.on(td.RendererEvent.END, (/** @type {td.RendererEvent} */ evt) => {
-    const urlMappings = evt.urls?.filter(urlMapping => {
+    /** @type {{ url: string, model: any }[]} */
+    const urls = ((/** @type {any} */ (evt)).urls ?? [])
+
+    const urlMappings = urls.filter((urlMapping) => {
       // single-module repo, single export
       if (urlMapping.url === 'modules.html') {
         return true
@@ -38,7 +42,7 @@ export function load (app) {
       }
 
       return false
-    }).map(urlMapping => {
+    }).map((urlMapping) => {
       if (isMonorepoParent) {
         let project = urlMapping.model.name
 
@@ -55,7 +59,7 @@ export function load (app) {
         if (comment == null && urlMapping.model instanceof td.DeclarationReflection && urlMapping.model.children != null && urlMapping.model.children.length > 0) {
           // multi-export modules have a different structure
           comment = urlMapping.model.children
-            .find(child => child.name === 'index')
+            .find((child) => child.name === 'index')
             ?.comment
         }
 
@@ -201,7 +205,7 @@ function updateReadme (aboutMd, manifestPath, readmePath, app) {
   let foundAbout = false
   let aboutHeadingLevel = -1
 
-  readme.children.forEach((child, index) => {
+  readme.children.forEach((/** @type {any} */ child, index) => {
     const rendered = writeMarkdown(child).toLowerCase()
 
     if (child.type === 'blockquote' && rendered === `> ${manifest.description.toLowerCase()}\n`) {

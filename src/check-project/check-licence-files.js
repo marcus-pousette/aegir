@@ -4,7 +4,8 @@ import path from 'path'
 import fs from 'fs-extra'
 import kleur from 'kleur'
 import {
-  ensureFileHasContents
+  ensureFileHasContents,
+  ensureFileNotPresent
 } from './utils.js'
 
 /**
@@ -14,7 +15,7 @@ export async function checkLicenseFiles (projectDir) {
   const pkg = fs.readJSONSync(path.join(projectDir, 'package.json'))
 
   if (pkg.private === true) {
-    console.info('Private module found, skipping licence file check')
+    console.info('Private module found, skipping license file check')
     return
   }
 
@@ -25,7 +26,8 @@ export async function checkLicenseFiles (projectDir) {
   }
 
   console.info(kleur.green('Manifest license field ok'))
-  await ensureFileHasContents(projectDir, 'LICENSE')
+  await ensureFileNotPresent(projectDir, 'LICENSE')
   await ensureFileHasContents(projectDir, 'LICENSE-APACHE')
   await ensureFileHasContents(projectDir, 'LICENSE-MIT')
+  await ensureFileHasContents(projectDir, 'CODE_OF_CONDUCT.md')
 }

@@ -1,3 +1,410 @@
+## [47.0.22](https://github.com/ipfs/aegir/compare/v47.0.21...v47.0.22) (2025-09-17)
+
+### Bug Fixes
+
+* time out browser coverage collection ([#1865](https://github.com/ipfs/aegir/issues/1865)) ([16ba8c7](https://github.com/ipfs/aegir/commit/16ba8c7bd4e3a2e17b470022efe3183a14f9090d))
+
+### Dependencies
+
+* bump npm-package-json-lint from 8.0.0 to 9.0.0 ([#1827](https://github.com/ipfs/aegir/issues/1827)) ([94bda99](https://github.com/ipfs/aegir/commit/94bda99e3e2c907a1753e9b5c97336ee9f313ce6))
+* bump p-retry from 6.2.1 to 7.0.0 ([#1856](https://github.com/ipfs/aegir/issues/1856)) ([b578e1d](https://github.com/ipfs/aegir/commit/b578e1df0fa65fab28d078123cd2249e93f9c725))
+* **dev:** bump electron from 36.9.1 to 38.1.1 ([#1864](https://github.com/ipfs/aegir/issues/1864)) ([27c911b](https://github.com/ipfs/aegir/commit/27c911b8def49ba8847b1f50f85d77186b5456fa))
+
+## [47.0.21](https://github.com/ipfs/aegir/compare/v47.0.20...v47.0.21) (2025-08-05)
+
+### Bug Fixes
+
+* pin typescript ([#1846](https://github.com/ipfs/aegir/issues/1846)) ([b5f0e94](https://github.com/ipfs/aegir/commit/b5f0e9498fb3cf5fec20c2f95d14f47807cad2f7))
+
+## [47.0.20](https://github.com/ipfs/aegir/compare/v47.0.19...v47.0.20) (2025-07-07)
+
+### Bug Fixes
+
+* update readme when readme is omitted from typedocs ([ffce208](https://github.com/ipfs/aegir/commit/ffce2086e371f3392c2e3fbd00f0a09456b3de3b))
+
+## [47.0.19](https://github.com/ipfs/aegir/compare/v47.0.18...v47.0.19) (2025-06-26)
+
+### Bug Fixes
+
+* add DOM.AsyncIterable ([#1826](https://github.com/ipfs/aegir/issues/1826)) ([effb5e4](https://github.com/ipfs/aegir/commit/effb5e4003f0a4fb814d79ac27c0cfe051e3869e))
+
+## [47.0.18](https://github.com/ipfs/aegir/compare/v47.0.17...v47.0.18) (2025-06-24)
+
+### Bug Fixes
+
+* allow importing .ts files ([#1819](https://github.com/ipfs/aegir/issues/1819)) ([ab2d0b0](https://github.com/ipfs/aegir/commit/ab2d0b08ca601f24360d1d7219bb2962adeafbaa))
+* import plugin has types now ([7660c0d](https://github.com/ipfs/aegir/commit/7660c0d8f9860e6a87100d8bda0160ea93635751))
+
+## [47.0.17](https://github.com/ipfs/aegir/compare/v47.0.16...v47.0.17) (2025-06-18)
+
+### Bug Fixes
+
+* detect monorepo root ([186e815](https://github.com/ipfs/aegir/commit/186e815bc5b099c438d1ca78463a7332bb71d376))
+* remove semantic-release related fields from private packages ([2b8b756](https://github.com/ipfs/aegir/commit/2b8b75621a973df9a65ed07ed7f46ee322dab975))
+* update dependabot path ([625c4d0](https://github.com/ipfs/aegir/commit/625c4d09ecfbcf9638bb140828e8d3273ad1d662))
+
+## [47.0.16](https://github.com/ipfs/aegir/compare/v47.0.15...v47.0.16) (2025-05-26)
+
+### Bug Fixes
+
+* ignore monorepo root when updating readme from tag ([6b554fa](https://github.com/ipfs/aegir/commit/6b554fac03cb1087f2274c1990350454b657e3a6))
+
+## [47.0.15](https://github.com/ipfs/aegir/compare/v47.0.14...v47.0.15) (2025-05-24)
+
+### Bug Fixes
+
+* update tsdoc defaults and keep api docs in readmes ([72775f1](https://github.com/ipfs/aegir/commit/72775f1904d085652afa7b9dca2fe3b007ec8f6d))
+
+## [47.0.14](https://github.com/ipfs/aegir/compare/v47.0.13...v47.0.14) (2025-05-24)
+
+### Bug Fixes
+
+* update default dependabot ([5b77a6d](https://github.com/ipfs/aegir/commit/5b77a6d005e2d5a226af691e25b30624d8ffde40))
+
+## [47.0.13](https://github.com/ipfs/aegir/compare/v47.0.12...v47.0.13) (2025-05-23)
+
+### Bug Fixes
+
+* lint tsx/jsx ([10a05cb](https://github.com/ipfs/aegir/commit/10a05cb58fb7850bc8eb5352072e6a5db4d48bc9))
+
+## [47.0.12](https://github.com/ipfs/aegir/compare/v47.0.11...v47.0.12) (2025-05-22)
+
+### Bug Fixes
+
+* use typescript parser for depchecking tsx files ([70e05a5](https://github.com/ipfs/aegir/commit/70e05a59eed1aa2c365ffd71e93e97090cf61c5c))
+
+## [47.0.11](https://github.com/ipfs/aegir/compare/v47.0.10...v47.0.11) (2025-05-21)
+
+### Bug Fixes
+
+* render mermaid in docs ([da68d36](https://github.com/ipfs/aegir/commit/da68d36ae6090c0c67cd379cbf116625c3bbf46c))
+
+### Trivial Changes
+
+* add to ignore ([75a80d4](https://github.com/ipfs/aegir/commit/75a80d4afeb6ef4cc8a004e95fe2653977d64ee3))
+
+## [47.0.10](https://github.com/ipfs/aegir/compare/v47.0.9...v47.0.10) (2025-05-21)
+
+### Bug Fixes
+
+* update default module ([7ad02df](https://github.com/ipfs/aegir/commit/7ad02df827eb63e31108bb185b8ee1fb38a2c64a))
+
+## [47.0.9](https://github.com/ipfs/aegir/compare/v47.0.8...v47.0.9) (2025-05-21)
+
+### Bug Fixes
+
+* comma dangle ([27668fb](https://github.com/ipfs/aegir/commit/27668fbb296404ca37531caaa9fc4bb9e835501c))
+
+## [47.0.8](https://github.com/ipfs/aegir/compare/v47.0.7...v47.0.8) (2025-05-21)
+
+### Bug Fixes
+
+* add new version of throw literals ([d4911f3](https://github.com/ipfs/aegir/commit/d4911f343b8e9116710bfa2281783f220ebc2865))
+
+## [47.0.7](https://github.com/ipfs/aegir/compare/v47.0.6...v47.0.7) (2025-05-20)
+
+### Bug Fixes
+
+* relax yield jsdoc rule ([85abe5d](https://github.com/ipfs/aegir/commit/85abe5d259a09569f813b84953da8d513403454f))
+
+## [47.0.6](https://github.com/ipfs/aegir/compare/v47.0.5...v47.0.6) (2025-05-20)
+
+### Bug Fixes
+
+* relax void rule ([2d32c42](https://github.com/ipfs/aegir/commit/2d32c427ba2a4675f95bf787d017b79e2bbbded4))
+
+## [47.0.5](https://github.com/ipfs/aegir/compare/v47.0.4...v47.0.5) (2025-05-20)
+
+### Bug Fixes
+
+* relax return type linting rules ([7ceebba](https://github.com/ipfs/aegir/commit/7ceebba7e510b3d147b6647a90ad0dcb2434b7e3))
+
+### Trivial Changes
+
+* fix spelling ([a8812f6](https://github.com/ipfs/aegir/commit/a8812f63a45e73cdacd910713d4b4fd72aa74860))
+* spelling ([9c6f3ff](https://github.com/ipfs/aegir/commit/9c6f3ff93e1a3b25d7340e19e90d02b0e2d78972))
+
+## [47.0.4](https://github.com/ipfs/aegir/compare/v47.0.3...v47.0.4) (2025-05-20)
+
+### Bug Fixes
+
+* update linting rules ([879f7f9](https://github.com/ipfs/aegir/commit/879f7f962f92385605bd5df31fc9b40eb477f4f1))
+
+### Trivial Changes
+
+* fix deps ([fc19ee8](https://github.com/ipfs/aegir/commit/fc19ee83484cbdd984c4f72a00500be093e877cc))
+
+## [47.0.3](https://github.com/ipfs/aegir/compare/v47.0.2...v47.0.3) (2025-05-19)
+
+### Bug Fixes
+
+* remove extra dep ([82a5977](https://github.com/ipfs/aegir/commit/82a5977e9a297b3f4407e439437bd8d8904a580d))
+
+## [47.0.2](https://github.com/ipfs/aegir/compare/v47.0.1...v47.0.2) (2025-05-19)
+
+### Dependencies
+
+* bump @electron/get from 3.1.0 to 4.0.0 ([#1737](https://github.com/ipfs/aegir/issues/1737)) ([88ff693](https://github.com/ipfs/aegir/commit/88ff6935c4281d95219306f6603b24ccb729bc1f))
+
+## [47.0.1](https://github.com/ipfs/aegir/compare/v47.0.0...v47.0.1) (2025-05-19)
+
+### Dependencies
+
+* bump execa from 8.0.1 to 9.5.3 ([#1798](https://github.com/ipfs/aegir/issues/1798)) ([ce9483a](https://github.com/ipfs/aegir/commit/ce9483a7374201ada2079beb0b09e4642eff2a5e))
+
+## [47.0.0](https://github.com/ipfs/aegir/compare/v46.0.5...v47.0.0) (2025-05-19)
+
+### ⚠ BREAKING CHANGES
+
+* Eslint is now v9, `.eslintrc` is no longer supported
+
+### Features
+
+* update typescript target to es2024 ([#1804](https://github.com/ipfs/aegir/issues/1804)) ([14e3968](https://github.com/ipfs/aegir/commit/14e3968450e9f7b15aaed025a9708b4965f52f9b))
+
+## [46.0.5](https://github.com/ipfs/aegir/compare/v46.0.4...v46.0.5) (2025-05-19)
+
+### Dependencies
+
+* bump cspell from 8.19.4 to 9.0.1 ([#1807](https://github.com/ipfs/aegir/issues/1807)) ([c8f7d07](https://github.com/ipfs/aegir/commit/c8f7d07a730ac708d8343e555bd1345eec746900))
+* bump diff from 7.0.0 to 8.0.1 ([#1806](https://github.com/ipfs/aegir/issues/1806)) ([a982d95](https://github.com/ipfs/aegir/commit/a982d95725f75abdaf5b9bdac5cde07cf1f0910f))
+* bump eslint-plugin-jsdoc from 48.11.0 to 50.6.17 ([#1802](https://github.com/ipfs/aegir/issues/1802)) ([25b9e22](https://github.com/ipfs/aegir/commit/25b9e22930be17c9aed017029b22d9da71f02c28))
+* bump eslint-plugin-promise from 6.6.0 to 7.2.1 ([#1692](https://github.com/ipfs/aegir/issues/1692)) ([afc761e](https://github.com/ipfs/aegir/commit/afc761e2dcc7acf98853746051e371c906343019))
+
+## [46.0.4](https://github.com/ipfs/aegir/compare/v46.0.3...v46.0.4) (2025-05-19)
+
+### Dependencies
+
+* bump typedoc from 0.25.13 to 0.26.8 ([#1640](https://github.com/ipfs/aegir/issues/1640)) ([bb3e2ed](https://github.com/ipfs/aegir/commit/bb3e2ed3f92adf468b9d4d5d51e8d2d2654a7c7f))
+
+## [46.0.3](https://github.com/ipfs/aegir/compare/v46.0.2...v46.0.3) (2025-05-17)
+
+### Dependencies
+
+* **dev:** bump electron from 35.4.0 to 36.2.1 ([#1803](https://github.com/ipfs/aegir/issues/1803)) ([4a41cbb](https://github.com/ipfs/aegir/commit/4a41cbbcbb08f45868a4fe260be22216b57232a9))
+
+## [46.0.2](https://github.com/ipfs/aegir/compare/v46.0.1...v46.0.2) (2025-05-14)
+
+### Bug Fixes
+
+* update cspell to parse IPFS/IPNS urls ([527e388](https://github.com/ipfs/aegir/commit/527e388705f619dc47be0e9958e3213d0e570d0d))
+
+## [46.0.1](https://github.com/ipfs/aegir/compare/v46.0.0...v46.0.1) (2025-05-12)
+
+### Bug Fixes
+
+* ignore lockfile in release commit ([5cf1266](https://github.com/ipfs/aegir/commit/5cf1266eab71f19b1aad69be1ea7a36db0926cd4))
+
+## [46.0.0](https://github.com/ipfs/aegir/compare/v45.2.1...v46.0.0) (2025-05-07)
+
+### ⚠ BREAKING CHANGES
+
+* bump eslint-config-ipfs from 7.0.6 to 8.0.0 (#1791)
+
+### Trivial Changes
+
+* remove lockfile ([16e55c0](https://github.com/ipfs/aegir/commit/16e55c08fa385d4cfc7ab696e8eb5a29ace894a3))
+
+### Dependencies
+
+* bump eslint-config-ipfs from 7.0.6 to 8.0.0 ([#1791](https://github.com/ipfs/aegir/issues/1791)) ([53a0da1](https://github.com/ipfs/aegir/commit/53a0da1c2c2231d6aaa93160dc72784dffa33605))
+
+## [45.2.1](https://github.com/ipfs/aegir/compare/v45.2.0...v45.2.1) (2025-04-23)
+
+### Dependencies
+
+* **dev:** bump electron from 34.2.0 to 35.2.0 ([#1783](https://github.com/ipfs/aegir/issues/1783)) ([5eac0cd](https://github.com/ipfs/aegir/commit/5eac0cd89c0c98b8dca115ba89fb0827a5bb45b8))
+
+## [45.2.0](https://github.com/ipfs/aegir/compare/v45.1.4...v45.2.0) (2025-04-22)
+
+### Features
+
+* support multiple output files ([#1785](https://github.com/ipfs/aegir/issues/1785)) ([d13229c](https://github.com/ipfs/aegir/commit/d13229ce7918c322136ab07f2db29d9b7b005f16))
+
+## [45.1.4](https://github.com/ipfs/aegir/compare/v45.1.3...v45.1.4) (2025-03-19)
+
+### Bug Fixes
+
+* update dictionary ([07eeb7b](https://github.com/ipfs/aegir/commit/07eeb7b3e708b792ff22b71c786b4462f3d141bf))
+
+## [45.1.3](https://github.com/ipfs/aegir/compare/v45.1.2...v45.1.3) (2025-03-10)
+
+### Bug Fixes
+
+* do not spell check string CIDs/PeerIds ([ef44dee](https://github.com/ipfs/aegir/commit/ef44deebe1050859cd47b0c399f95119deebfdca))
+
+## [45.1.2](https://github.com/ipfs/aegir/compare/v45.1.1...v45.1.2) (2025-02-24)
+
+### Documentation
+
+* update spelling docs ([bb0c400](https://github.com/ipfs/aegir/commit/bb0c4000f45baf12516a52351767a2faa2be94a5))
+
+## [45.1.1](https://github.com/ipfs/aegir/compare/v45.1.0...v45.1.1) (2025-02-24)
+
+### Bug Fixes
+
+* update dictionary ([f2a0415](https://github.com/ipfs/aegir/commit/f2a04154271d9c9654ec7dd829d2da5d4b75eebe))
+
+## [45.1.0](https://github.com/ipfs/aegir/compare/v45.0.10...v45.1.0) (2025-02-24)
+
+### Features
+
+* add spell check command ([#1738](https://github.com/ipfs/aegir/issues/1738)) ([9696e26](https://github.com/ipfs/aegir/commit/9696e26069254b69ccf15fb440a6801b51a83d57))
+
+### Dependencies
+
+* **dev:** bump electron from 33.4.0 to 34.2.0 ([#1734](https://github.com/ipfs/aegir/issues/1734)) ([4177dec](https://github.com/ipfs/aegir/commit/4177decafd8dd9911590ab74347c6a42e374f458))
+
+## [45.0.10](https://github.com/ipfs/aegir/compare/v45.0.9...v45.0.10) (2025-02-22)
+
+### Trivial Changes
+
+* cache lockfiles ([1ee5459](https://github.com/ipfs/aegir/commit/1ee5459271c5b0567ce7f51251e0f89d21e535e9))
+
+### Dependencies
+
+* bump esbuild from 0.24.2 to 0.25.0 ([#1732](https://github.com/ipfs/aegir/issues/1732)) ([0140a17](https://github.com/ipfs/aegir/commit/0140a17fed89512ad36cba4253f3dc42c63b081f))
+
+## [45.0.9](https://github.com/ipfs/aegir/compare/v45.0.8...v45.0.9) (2025-01-20)
+
+### Trivial Changes
+
+* remove undici ([#1722](https://github.com/ipfs/aegir/issues/1722)) ([cf5a038](https://github.com/ipfs/aegir/commit/cf5a03831a13c511bae4ccaca4de07416c8e0b88))
+
+### Dependencies
+
+* bump @types/node from 20.17.14 to 22.10.7 ([#1719](https://github.com/ipfs/aegir/issues/1719)) ([8e0cd26](https://github.com/ipfs/aegir/commit/8e0cd2663f8ab30328906c41d8f4f3aa2f557a47))
+* bump mocha from 10.8.2 to 11.0.1 ([#1699](https://github.com/ipfs/aegir/issues/1699)) ([6302164](https://github.com/ipfs/aegir/commit/6302164641e6fa4f8df7ce6cf2f87aaff618b852))
+* **dev:** bump electron from 32.2.6 to 33.2.1 ([#1693](https://github.com/ipfs/aegir/issues/1693)) ([c694bec](https://github.com/ipfs/aegir/commit/c694bec91a44f5e3f77266f8bb02bc730a828cfe))
+
+## [45.0.8](https://github.com/ipfs/aegir/compare/v45.0.7...v45.0.8) (2024-12-05)
+
+### Bug Fixes
+
+* ignore module-not-found errors in doc-check ([#1701](https://github.com/ipfs/aegir/issues/1701)) ([41726f8](https://github.com/ipfs/aegir/commit/41726f83bee4603dafd6a387ff789be5468a4804))
+
+### Trivial Changes
+
+* Update .github/workflows/stale.yml [skip ci] ([9bb06f9](https://github.com/ipfs/aegir/commit/9bb06f982d069f36354743051d5813d379ee3368))
+
+## [45.0.7](https://github.com/ipfs/aegir/compare/v45.0.6...v45.0.7) (2024-11-28)
+
+### Bug Fixes
+
+* add coc ([9518ea9](https://github.com/ipfs/aegir/commit/9518ea93835758e005fb0137156f33575ec3ddc1))
+
+### Trivial Changes
+
+* reword coc ([9eb4045](https://github.com/ipfs/aegir/commit/9eb4045ce62ec45a2931bcdf6668cc795f6351e7))
+
+## [45.0.6](https://github.com/ipfs/aegir/compare/v45.0.5...v45.0.6) (2024-11-28)
+
+### Bug Fixes
+
+* delete file using full path ([ebf332c](https://github.com/ipfs/aegir/commit/ebf332c290a77376610c42ecad38859fb3420a31))
+
+## [45.0.5](https://github.com/ipfs/aegir/compare/v45.0.4...v45.0.5) (2024-11-28)
+
+### Bug Fixes
+
+* add gh actions to dependabot ([41a4cc2](https://github.com/ipfs/aegir/commit/41a4cc249ba264b87fddb7a9a64fc963e062ad17))
+* group dependabot updates ([#1682](https://github.com/ipfs/aegir/issues/1682)) ([b1fee41](https://github.com/ipfs/aegir/commit/b1fee41a04e4e4c65dc22b63c50c01238024341a))
+* use chore for dev deps ([263bc50](https://github.com/ipfs/aegir/commit/263bc505c0f6ddc5f86a214eadba8da848a93a6d))
+
+## [45.0.4](https://github.com/ipfs/aegir/compare/v45.0.3...v45.0.4) (2024-11-28)
+
+### Bug Fixes
+
+* fix license files ([b8698fa](https://github.com/ipfs/aegir/commit/b8698faff538cde9cc08b336efdcef65a78411a4))
+
+## [45.0.3](https://github.com/ipfs/aegir/compare/v45.0.2...v45.0.3) (2024-11-28)
+
+### Bug Fixes
+
+* revert "fix: override playwright core version" ([#1681](https://github.com/ipfs/aegir/issues/1681)) ([1a4c2b6](https://github.com/ipfs/aegir/commit/1a4c2b692f56b81a2f9ca6fd59369cf3250dc490))
+
+### Trivial Changes
+
+* ignore other deps ([950d32e](https://github.com/ipfs/aegir/commit/950d32e101b96170a8b1141025ec96fbc597128e))
+* remove redundant readme section ([b0520be](https://github.com/ipfs/aegir/commit/b0520be1d6f57e8a65464891713d42d6f637fdd3))
+* update branch references ([abacaa3](https://github.com/ipfs/aegir/commit/abacaa3ea5c7afc54d8aa654fc06e869483d76d4))
+
+## [45.0.2](https://github.com/ipfs/aegir/compare/v45.0.1...v45.0.2) (2024-11-19)
+
+### Bug Fixes
+
+* override playwright core version ([#1679](https://github.com/ipfs/aegir/issues/1679)) ([bf5a947](https://github.com/ipfs/aegir/commit/bf5a947dfe26a6e7285883cbfa124b42c247f407))
+
+## [45.0.1](https://github.com/ipfs/aegir/compare/v45.0.0...v45.0.1) (2024-10-29)
+
+### Bug Fixes
+
+* lint examples ([19d3003](https://github.com/ipfs/aegir/commit/19d3003d64c73060db91d19f76f64c1adc4de0f7))
+
+### Trivial Changes
+
+* fix typo ([88b6da6](https://github.com/ipfs/aegir/commit/88b6da68bd95ec9b2a142e9c737490dbb1b027d4))
+
+## [45.0.0](https://github.com/ipfs/aegir/compare/v44.1.4...v45.0.0) (2024-10-28)
+
+### ⚠ BREAKING CHANGES
+
+* `.tsx` and `.jsx` files are now checked for missing/unused dependencies
+
+### Bug Fixes
+
+* dep-check tsx and jsx ([#1661](https://github.com/ipfs/aegir/issues/1661)) ([326e281](https://github.com/ipfs/aegir/commit/326e2812bc2267f389a8e5ecfda8db64e30dd384))
+
+## [44.1.4](https://github.com/ipfs/aegir/compare/v44.1.3...v44.1.4) (2024-10-11)
+
+### Bug Fixes
+
+* run electron without sandbox ([ac3ec40](https://github.com/ipfs/aegir/commit/ac3ec4000d999aa204d16367feea22004a619686))
+
+### Trivial Changes
+
+* add why ([1087ac5](https://github.com/ipfs/aegir/commit/1087ac544802708238e33b6bcaaaa19e06bd6067))
+
+## [44.1.3](https://github.com/ipfs/aegir/compare/v44.1.2...v44.1.3) (2024-10-11)
+
+### Dependencies
+
+* bump @semantic-release/github from 10.3.5 to 11.0.0 ([#1632](https://github.com/ipfs/aegir/issues/1632)) ([1521c8b](https://github.com/ipfs/aegir/commit/1521c8be7503d5415e4c63f3c41ad6129ede692c))
+* bump diff from 5.2.0 to 7.0.0 ([#1616](https://github.com/ipfs/aegir/issues/1616)) ([b6b088d](https://github.com/ipfs/aegir/commit/b6b088d3ce83a68d529bca9ab525208dea05303e))
+* bump esbuild from 0.21.5 to 0.24.0 ([#1626](https://github.com/ipfs/aegir/issues/1626)) ([3138352](https://github.com/ipfs/aegir/commit/3138352f14d4c1af469deb3f4ee1f19f49847e3a))
+* bump rimraf from 5.0.9 to 6.0.1 ([#1572](https://github.com/ipfs/aegir/issues/1572)) ([2f66a9e](https://github.com/ipfs/aegir/commit/2f66a9ee63b4a1ab266a0dfd26e16ff16a4bb866))
+* **dev:** bump electron from 31.7.0 to 32.2.0 ([#1643](https://github.com/ipfs/aegir/issues/1643)) ([e40b011](https://github.com/ipfs/aegir/commit/e40b011840e1cd731b91cac0fd4ede30c24255c7))
+
+## [44.1.2](https://github.com/ipfs/aegir/compare/v44.1.1...v44.1.2) (2024-09-28)
+
+### Trivial Changes
+
+* allow setting docker registry in login action ([d842ee0](https://github.com/ipfs/aegir/commit/d842ee0f15d2ce85db6c7d56f3681f61651b088e))
+
+## [44.1.1](https://github.com/ipfs/aegir/compare/v44.1.0...v44.1.1) (2024-08-09)
+
+### Dependencies
+
+* **dev:** bump electron from 27.3.11 to 31.3.1 ([#1582](https://github.com/ipfs/aegir/issues/1582)) ([7e3d579](https://github.com/ipfs/aegir/commit/7e3d57961fd145d73b236868293f8f67ab899a5e))
+
+## [44.1.0](https://github.com/ipfs/aegir/compare/v44.0.3...v44.1.0) (2024-07-29)
+
+### Features
+
+* move tsc linter rules to eslint ([#1513](https://github.com/ipfs/aegir/issues/1513)) ([f78c9ac](https://github.com/ipfs/aegir/commit/f78c9ac808fd259be95c660ca12967a408fb0f5b))
+
+## [44.0.3](https://github.com/ipfs/aegir/compare/v44.0.2...v44.0.3) (2024-07-29)
+
+### Bug Fixes
+
+* unpin eslint-plugin-jsdoc ([#1580](https://github.com/ipfs/aegir/issues/1580)) ([545af7c](https://github.com/ipfs/aegir/commit/545af7c33231a2b5bfdf3dd5dd5ae0fa7d571844))
+
+## [44.0.2](https://github.com/ipfs/aegir/compare/v44.0.1...v44.0.2) (2024-07-29)
+
+### Bug Fixes
+
+* pin eslint-plugin-jsdoc ([#1579](https://github.com/ipfs/aegir/issues/1579)) ([c4f998c](https://github.com/ipfs/aegir/commit/c4f998ca4d74d68c6f098cbad9aefb11ed746587))
+
 ## [44.0.1](https://github.com/ipfs/aegir/compare/v44.0.0...v44.0.1) (2024-07-01)
 
 ### Documentation

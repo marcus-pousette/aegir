@@ -8,8 +8,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 /**
  * @typedef {import("execa").Options} ExecaOptions
- * @typedef {import('./../types').TestOptions} TestOptions
- * @typedef {import('./../types').GlobalOptions} GlobalOptions
+ * @typedef {import('../types.js').TestOptions} TestOptions
+ * @typedef {import('../types.js').GlobalOptions} GlobalOptions
  */
 
 /**
@@ -23,8 +23,8 @@ export default async (argv, execaOptions) => {
   const files = argv.files.length > 0
     ? [...argv.files]
     : [
-        'test/**/*.spec.{js,mjs,cjs}',
-        'dist/test/**/*.spec.{js,cjs,mjs}'
+        'test/**/*.spec.*js',
+        'dist/test/**/*.spec.*js'
       ]
   const grep = argv.grep ? ['--grep', argv.grep] : []
   const progress = argv.progress ? ['--reporter=progress'] : []
@@ -39,6 +39,8 @@ export default async (argv, execaOptions) => {
 
   await execa(findBinary('electron-mocha'),
     [
+      // workaround for https://github.com/jprichardson/electron-mocha/issues/195
+      '--no-sandbox',
       ...files,
       ...watch,
       ...grep,
